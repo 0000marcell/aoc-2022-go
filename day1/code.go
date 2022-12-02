@@ -5,6 +5,7 @@ import (
   "fmt"
   "os"
   "strconv"
+  "sort"
 )
  
 func main() {
@@ -17,25 +18,41 @@ func main() {
 
   fileScanner.Split(bufio.ScanLines)
 
+  var sum int = 0
+  //var gsum int = 0
+  var output []int
+
   for fileScanner.Scan() {
     str := fileScanner.Text()
     if str == "" { 
+      // if gsum < sum {
+      //   gsum = sum
+      //   fmt.Println("new biggest gsum: ", gsum)
+      // }
+      output = append(output, sum)
+      sum = 0
       continue
     }
 
-    number, err := strconv.Atoi(fileScanner.Text())
+    num, err := strconv.Atoi(fileScanner.Text())
 
     if err != nil {
       fmt.Println("Error during conversion")
       return
     }
 
-    if number > 0 {
-      fmt.Println("Number is greater than 0!")
-    }
-
-    fmt.Println(fileScanner.Text())
+    sum += num
   }
+
+  output = append(output, sum)
+  sort.Ints(output)
+  fmt.Println(output)
+
+  // if gsum < sum {
+  //   gsum = sum
+
+  //   fmt.Println("new biggest gsum", gsum)
+  // }
 
   readFile.Close()
 }
