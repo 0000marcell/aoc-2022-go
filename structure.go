@@ -12,6 +12,13 @@ func main() {
   var pers1 Person
   var pers2 Person
 
+  
+  // struct literal
+  person := &Person{
+    age:  25,
+    name: "Anton",
+  }
+
   // Pers1 specification
   pers1.name = "Hege"
   pers1.age = 45

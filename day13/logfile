@@ -1,0 +1,2315 @@
+2023-03-20 17:24:10.857 AMERICA [269350] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.2.1 20230201, 64-bit
+2023-03-20 17:24:10.858 AMERICA [269350] LOG:  listening on IPv6 address "::1", port 5432
+2023-03-20 17:24:10.858 AMERICA [269350] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2023-03-20 17:24:10.863 AMERICA [269350] FATAL:  could not create lock file "/run/postgresql/.s.PGSQL.5432.lock": No such file or directory
+2023-03-20 17:24:10.865 AMERICA [269350] LOG:  database system is shut down
+2023-03-20 17:25:32.505 AMERICA [269958] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.2.1 20230201, 64-bit
+2023-03-20 17:25:32.506 AMERICA [269958] LOG:  listening on IPv6 address "::1", port 5432
+2023-03-20 17:25:32.506 AMERICA [269958] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2023-03-20 17:25:32.513 AMERICA [269958] FATAL:  could not create lock file "/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2023-03-20 17:25:32.518 AMERICA [269958] LOG:  database system is shut down
+2023-03-20 17:26:15.966 AMERICA [270266] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.2.1 20230201, 64-bit
+2023-03-20 17:26:15.967 AMERICA [270266] LOG:  listening on IPv6 address "::1", port 5432
+2023-03-20 17:26:15.967 AMERICA [270266] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2023-03-20 17:26:15.972 AMERICA [270266] LOG:  listening on Unix socket "/run/postgresql/.s.PGSQL.5432"
+2023-03-20 17:26:15.988 AMERICA [270269] LOG:  database system was shut down at 2023-03-19 21:49:50 AMERICA
+2023-03-20 17:26:16.005 AMERICA [270266] LOG:  database system is ready to accept connections
+2023-03-20 17:31:16.085 AMERICA [270267] LOG:  checkpoint starting: time
+2023-03-20 17:31:20.138 AMERICA [270267] LOG:  checkpoint complete: wrote 43 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.021 s, sync=0.012 s, total=4.053 s; sync files=11, longest=0.009 s, average=0.002 s; distance=300 kB, estimate=300 kB
+2023-03-20 17:39:32.152 AMERICA [276392] FATAL:  role "postgres" does not exist
+2023-03-20 17:39:32.155 AMERICA [276393] FATAL:  role "postgres" does not exist
+2023-03-20 17:44:55.229 AMERICA [278715] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 17:44:55.229 AMERICA [278715] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 17:44:55.238 AMERICA [278715] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 17:44:55.238 AMERICA [278715] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 17:44:55.638 AMERICA [278715] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 17:44:55.638 AMERICA [278715] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 17:44:55.638 AMERICA [278715] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 17:44:55.670 AMERICA [278715] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 17:44:55.670 AMERICA [278715] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 17:44:58.553 AMERICA [278715] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 17:44:58.553 AMERICA [278715] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 17:44:59.054 AMERICA [278715] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 17:44:59.054 AMERICA [278715] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 17:45:00.420 AMERICA [278715] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 17:45:00.420 AMERICA [278715] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 17:45:00.420 AMERICA [278715] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 17:45:00.461 AMERICA [278715] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 17:45:00.461 AMERICA [278715] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 17:45:03.610 AMERICA [278715] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 17:45:03.610 AMERICA [278715] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 17:45:03.717 AMERICA [278715] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 17:45:03.717 AMERICA [278715] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 17:45:06.785 AMERICA [278715] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 17:45:06.785 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 17:45:06.785 AMERICA [278715] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 17:45:06.785 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 17:45:07.015 AMERICA [278715] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 17:45:07.015 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 17:45:09.494 AMERICA [278715] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 17:45:09.494 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 17:45:17.681 AMERICA [278715] ERROR:  column "account_uuid" does not exist
+2023-03-20 17:45:17.681 AMERICA [278715] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 17:45:17.682 AMERICA [278715] ERROR:  column "account_uuid" does not exist
+2023-03-20 17:45:17.682 AMERICA [278715] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 17:45:25.104 AMERICA [278715] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 17:45:25.104 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 17:45:25.219 AMERICA [278715] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 17:45:25.219 AMERICA [278715] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 17:45:28.752 AMERICA [278715] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 17:45:28.752 AMERICA [278715] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 17:45:28.752 AMERICA [278715] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 17:45:32.754 AMERICA [278715] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 17:45:32.754 AMERICA [278715] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 17:45:32.754 AMERICA [278715] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 17:45:36.889 AMERICA [278994] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 17:45:36.889 AMERICA [278994] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 17:45:36.898 AMERICA [278994] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 17:45:36.898 AMERICA [278994] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 17:45:37.307 AMERICA [278994] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 17:45:37.307 AMERICA [278994] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 17:45:37.307 AMERICA [278994] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 17:45:37.339 AMERICA [278994] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 17:45:37.339 AMERICA [278994] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 17:45:39.957 AMERICA [278994] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 17:45:39.957 AMERICA [278994] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 17:45:40.461 AMERICA [278994] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 17:45:40.461 AMERICA [278994] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 17:45:41.745 AMERICA [278994] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 17:45:41.745 AMERICA [278994] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 17:45:41.745 AMERICA [278994] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 17:45:41.781 AMERICA [278994] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 17:45:41.781 AMERICA [278994] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 17:45:44.949 AMERICA [278994] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 17:45:44.949 AMERICA [278994] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 17:45:45.051 AMERICA [278994] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 17:45:45.051 AMERICA [278994] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 17:45:48.097 AMERICA [278994] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 17:45:48.097 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 17:45:48.098 AMERICA [278994] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 17:45:48.098 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 17:45:48.337 AMERICA [278994] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 17:45:48.337 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 17:45:50.827 AMERICA [278994] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 17:45:50.827 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 17:45:59.338 AMERICA [278994] ERROR:  column "account_uuid" does not exist
+2023-03-20 17:45:59.338 AMERICA [278994] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 17:45:59.339 AMERICA [278994] ERROR:  column "account_uuid" does not exist
+2023-03-20 17:45:59.339 AMERICA [278994] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 17:46:06.752 AMERICA [278994] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 17:46:06.752 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 17:46:06.832 AMERICA [278994] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 17:46:06.832 AMERICA [278994] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 17:46:10.447 AMERICA [278994] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 17:46:10.447 AMERICA [278994] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 17:46:10.447 AMERICA [278994] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 17:46:15.209 AMERICA [278994] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 17:46:15.209 AMERICA [278994] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 17:46:15.209 AMERICA [278994] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 17:46:16.439 AMERICA [270267] LOG:  checkpoint starting: time
+2023-03-20 17:50:46.267 AMERICA [270267] LOG:  checkpoint complete: wrote 7803 buffers (47.6%); 0 WAL file(s) added, 0 removed, 4 recycled; write=269.380 s, sync=0.204 s, total=269.828 s; sync files=2525, longest=0.009 s, average=0.001 s; distance=63060 kB, estimate=63060 kB
+2023-03-20 19:01:17.698 AMERICA [270267] LOG:  checkpoint starting: time
+2023-03-20 19:01:42.118 AMERICA [270267] LOG:  checkpoint complete: wrote 244 buffers (1.5%); 0 WAL file(s) added, 0 removed, 1 recycled; write=24.381 s, sync=0.012 s, total=24.420 s; sync files=20, longest=0.005 s, average=0.001 s; distance=11533 kB, estimate=57907 kB
+2023-03-20 20:16:28.028 AMERICA [270267] LOG:  checkpoint starting: immediate force wait
+2023-03-20 20:16:28.051 AMERICA [270267] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.003 s, total=0.024 s; sync files=1, longest=0.003 s, average=0.003 s; distance=1 kB, estimate=52117 kB
+2023-03-20 20:17:37.683 AMERICA [347062] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 20:17:37.683 AMERICA [347062] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:17:37.699 AMERICA [347062] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:37.699 AMERICA [347062] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 20:17:38.222 AMERICA [347062] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:38.222 AMERICA [347062] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:38.222 AMERICA [347062] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:38.265 AMERICA [347062] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 20:17:38.265 AMERICA [347062] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:39.110 AMERICA [347069] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 20:17:39.110 AMERICA [347069] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:17:39.127 AMERICA [347069] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:39.127 AMERICA [347069] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 20:17:39.637 AMERICA [347069] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:39.637 AMERICA [347069] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:39.637 AMERICA [347069] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:39.675 AMERICA [347069] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 20:17:39.675 AMERICA [347069] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:39.692 AMERICA [347079] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 20:17:39.692 AMERICA [347079] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:17:39.695 AMERICA [347074] ERROR:  syntax error at or near "CREATE" at character 351
+2023-03-20 20:17:39.695 AMERICA [347074] STATEMENT:  CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	)
+	--
+	-- Name: allowed_urls; Type: TABLE; Schema: prv; Owner: -
+	--
+	CREATE TABLE prv.allowed_urls (
+	    id integer NOT NULL,
+	    url character varying NOT NULL,
+	    created_by character varying NOT NULL,
+	    updated_by character varying NOT NULL,
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:17:39.702 AMERICA [347079] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:39.702 AMERICA [347079] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 20:17:39.709 AMERICA [347074] ERROR:  relation "dcv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:39.709 AMERICA [347074] STATEMENT:  ALTER SEQUENCE dcv.dealer_versions_id_seq OWNED BY dcv.dealer_versions.id;
+2023-03-20 20:17:40.246 AMERICA [347074] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:40.246 AMERICA [347074] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:40.246 AMERICA [347074] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:40.251 AMERICA [347079] ERROR:  operator does not exist: mck.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:40.251 AMERICA [347079] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:40.251 AMERICA [347079] STATEMENT:  CREATE VIEW mck.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM mck.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN mck.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN mck.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN mck.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:40.320 AMERICA [347079] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 20:17:40.320 AMERICA [347079] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:40.326 AMERICA [347074] ERROR:  relation "mck.caf_customers" does not exist at character 1494
+2023-03-20 20:17:40.326 AMERICA [347074] STATEMENT:  CREATE VIEW mck.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((mck.estimates e
+	     JOIN mck.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN mck.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN mck.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN mck.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN mck.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::mck.customer_type))))
+	     LEFT JOIN mck.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN mck.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN mck.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN mck.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:42.106 AMERICA [347062] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:42.106 AMERICA [347062] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 20:17:42.905 AMERICA [347062] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 20:17:42.905 AMERICA [347062] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 20:17:43.957 AMERICA [347069] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:43.957 AMERICA [347069] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 20:17:44.733 AMERICA [347074] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:44.733 AMERICA [347074] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 20:17:44.791 AMERICA [347079] ERROR:  relation "mck.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:44.791 AMERICA [347079] STATEMENT:  ALTER SEQUENCE mck.dealer_versions_id_seq OWNED BY mck.dealer_versions.id;
+2023-03-20 20:17:44.849 AMERICA [347069] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 20:17:44.849 AMERICA [347069] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 20:17:45.060 AMERICA [347062] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:45.060 AMERICA [347062] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:45.060 AMERICA [347062] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:45.115 AMERICA [347062] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 20:17:45.115 AMERICA [347062] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:45.490 AMERICA [347074] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 20:17:45.490 AMERICA [347074] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 20:17:45.548 AMERICA [347079] ERROR:  relation "mck.allowed_urls_id_seq" does not exist
+2023-03-20 20:17:45.548 AMERICA [347079] STATEMENT:  ALTER SEQUENCE mck.allowed_urls_id_seq OWNED BY mck.allowed_urls.id;
+2023-03-20 20:17:46.660 AMERICA [347069] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:46.660 AMERICA [347069] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:46.660 AMERICA [347069] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:46.727 AMERICA [347069] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 20:17:46.727 AMERICA [347069] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:47.325 AMERICA [347074] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:47.325 AMERICA [347074] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:47.325 AMERICA [347074] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:47.361 AMERICA [347079] ERROR:  operator does not exist: prv.customer_type = dcv.customer_type at character 307
+2023-03-20 20:17:47.361 AMERICA [347079] HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+2023-03-20 20:17:47.361 AMERICA [347079] STATEMENT:  CREATE VIEW prv.caf_customers AS
+	 SELECT (split_part(ct.id, '|'::text, 2))::integer AS customers_id,
+	    COALESCE(dealer_group.dealer_id, dealer.dealer_id) AS dealer_id,
+	    COALESCE(dealer_group.srm_account_id, dealer.srm_account_id) AS srm_account_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Depot'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS registered_depot_id,
+	        CASE
+	            WHEN (locals.customer_type = 'Local'::dcv.customer_type) THEN locals.id
+	            ELSE NULL::integer
+	        END AS local_customer_id,
+	    dealer.dealer_type,
+	    COALESCE(dealer_group.group_id, dealer.group_id) AS group_id,
+	    NULLIF(ct.dms_id, ''::text) AS dms_id,
+	    COALESCE(ct.pricing_source_id, locals.pricing_source_id) AS pricing_source_id,
+	    locals.company_name,
+	    locals.address1,
+	    locals.address2,
+	    locals.city,
+	    locals.state,
+	    locals.postal_code,
+	    locals.country,
+	    locals.phone,
+	    locals.extension,
+	    locals.fax,
+	    locals.email,
+	    COALESCE(ct.notes, locals.notes) AS notes,
+	    locals.status,
+	    locals.updated_by,
+	    locals.updated_at,
+	    locals.created_by,
+	    locals.created_at,
+	    locals.account_number,
+	    locals.old_id,
+	    locals.additional_emails,
+	    locals.broker_id,
+	    COALESCE(ct.payment_terms, (locals.payment_terms)::text) AS payment_terms,
+	    COALESCE(ct.payment_status, (locals.payment_status)::text) AS payment_status,
+	    COALESCE(ct.billing_type_id, locals.billing_type_id) AS billing_type_id,
+	    COALESCE(ct.notes_gop, locals.notes_gop) AS notes_gop,
+	    NULLIF(COALESCE(ct.notes_service_setup, locals.notes_service_setup), ''::text) AS notes_service_setup,
+	    COALESCE(ct.notes_contacts, locals.notes_contacts) AS notes_contacts,
+	    COALESCE(ct.notes_special_request, locals.notes_special_request) AS notes_special_request,
+	    COALESCE(ct.notes_dnu_vendors, locals.notes_dnu_vendors) AS notes_dnu_vendors,
+	    COALESCE(ct.notes_truck_tires, locals.notes_truck_tires) AS notes_truck_tires,
+	    COALESCE(ct.notes_trailer_tires, locals.notes_trailer_tires) AS notes_trailer_tires,
+	    COALESCE(ct.notes_billing, locals.notes_billing) AS notes_billing,
+	    COALESCE(ct.notes_remote_diagnostics, locals.notes_remote_diagnostics) AS notes_remote_diagnostics,
+	    COALESCE(ct.can_view_repair_instructions, locals.can_view_repair_instructions) AS can_view_repair_instructions,
+	    locals.billing_customer_id,
+	    locals.shipping_customer_id,
+	    locals.markup_flat_fee,
+	    locals.markup_percent,
+	    locals.maintenance_plan,
+	    COALESCE(ct.notes_required_information, locals.notes_required_information) AS notes_required_information,
+	    COALESCE(ct.notes_approvals, locals.notes_approvals) AS notes_approvals,
+	    COALESCE(ct.notes_preferred_vendors, locals.notes_preferred_vendors) AS notes_preferred_vendors,
+	    COALESCE(ct.notes_tow, locals.notes_tow) AS notes_tow,
+	    COALESCE(ct.notes_reefer_units, locals.notes_reefer_units) AS notes_reefer_units,
+	    COALESCE(ct.notes_rentals_and_spares, locals.notes_rentals_and_spares) AS notes_rentals_and_spares,
+	    NULLIF(COALESCE(ct.notes_sponsoring_dealer, locals.notes_sponsoring_dealer), ''::text) AS notes_sponsoring_dealer,
+	    COALESCE(ct.notes_volvo_mack_notes, locals.notes_volvo_mack_notes) AS notes_volvo_mack_notes,
+	    locals.uuid,
+	    locals.customer_type,
+	    locals.srm_account_id AS customer_srm_account_id,
+	    locals.lock_change_ownership,
+	    locals.registered_depot_reference_id,
+	    'custom_attributes' AS source_table
+	   FROM (((public.crosstab('SELECT concat(owner_id,''|'',for_id) AS id, attrib, value::text
+	      FROM prv.custom_attributes WHERE for_type=''Customer'' ORDER BY 1'::text, 'SELECT attrib FROM custom_attributes wHERE for_type=''Customer'' GROUP BY attrib
+	      UNION
+	      SELECT ''billing_type_id'' AS attrib
+	      UNION
+	      SELECT  ''can_view_repair_instructions'' AS attrib
+	      UNION
+	      SELECT  ''dms_id'' AS attrib
+	      UNION
+	      SELECT  ''notes'' AS attrib
+	      UNION
+	      SELECT  ''notes_approvals'' AS attrib
+	      UNION
+	      SELECT ''notes_billing'' AS attrib
+	      UNION
+	      SELECT ''notes_contacts'' AS attrib
+	      UNION
+	      SELECT ''notes_dnu_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_gop'' AS attrib
+	      UNION
+	      SELECT ''notes_preferred_vendors'' AS attrib
+	      UNION
+	      SELECT ''notes_reefer_units'' AS attrib
+	      UNION
+	      SELECT ''notes_remote_diagnostics'' AS attrib
+	      UNION
+	      SELECT ''notes_rentals_and_spares'' AS attrib
+	      UNION
+	      SELECT ''notes_required_information'' AS attrib
+	      UNION
+	      SELECT ''notes_service_setup'' AS attrib
+	      UNION
+	      SELECT ''notes_special_request'' AS attrib
+	      UNION
+	      SELECT ''notes_sponsoring_dealer'' AS attrib
+	      UNION
+	      SELECT ''notes_tow'' AS attrib
+	      UNION
+	      SELECT ''notes_trailer_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_truck_tires'' AS attrib
+	      UNION
+	      SELECT ''notes_volvo_mack_notes'' AS attrib
+	      UNION
+	      SELECT ''payment_status'' AS attrib
+	      UNION
+	      SELECT ''payment_terms'' AS attrib
+	      UNION
+	      SELECT ''pricing_source_id'' AS attrib order by 1'::text) ct(id text, billing_type_id integer, can_view_repair_instructions boolean, dms_id text, notes text, notes_approvals text, notes_billing text, notes_contacts text, notes_dnu_vendors text, notes_gop text, notes_preferred_vendors text, notes_reefer_units text, notes_remote_diagnostics text, notes_rentals_and_spares text, notes_required_information text, notes_service_setup text, notes_special_request text, notes_sponsoring_dealer text, notes_tow text, notes_trailer_tires text, notes_truck_tires text, notes_volvo_mack_notes text, payment_status text, payment_terms text, pricing_source_id integer)
+	     JOIN prv.dealer_info dealer ON ((split_part(ct.id, '|'::text, 1) = (dealer.dealer_id)::text)))
+	     JOIN prv.customers locals ON (((NULLIF(split_part(ct.id, '|'::text, 2), ''::text))::integer = locals.id)))
+	     LEFT JOIN prv.dealer_info dealer_group ON ((dealer.group_id = dealer_group.group_id)));
+2023-03-20 20:17:47.379 AMERICA [347074] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 20:17:47.379 AMERICA [347074] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:47.426 AMERICA [347079] ERROR:  relation "prv.caf_customers" does not exist at character 1494
+2023-03-20 20:17:47.426 AMERICA [347079] STATEMENT:  CREATE VIEW prv.caf_estimates_ids AS
+	 SELECT service_provider.srm_account_id AS service_provider_srm_account_id,
+	    e.dealer_id AS estimate_service_provider_id,
+	    COALESCE(fleet_srm_local_mapping.srm_account_id, fleet.srm_account_id) AS customer_srm_account_id,
+	    COALESCE(ccf.srm_account_id, local_customers.srm_account_id) AS local_customer_srm_account_id,
+	    COALESCE(ccf.customers_id, local_customers.id) AS local_customer_id,
+	    COALESCE(fleet_srm_local_mapping.dealer_id, fleet.dealer_id) AS customer_dealer_id,
+	    e.id AS estimate_id,
+	    e.customer_id AS estimate_customer_id,
+	    e.vehicle_id AS estimate_dealer_vehicle_id,
+	    COALESCE(depot_customers.id, caf_depot_customers.id) AS registered_depot_id,
+	    registered_dealer_vehicles.id AS registered_dealer_vehicle_id,
+	    serviceable_dealer_vehicles.id AS serviceable_dealer_vehicle_id
+	   FROM (((((((((prv.estimates e
+	     JOIN prv.customers local_customers ON ((e.customer_id = local_customers.id)))
+	     JOIN prv.dealer_info service_provider ON (((e.dealer_id)::text = (service_provider.dealer_id)::text)))
+	     JOIN prv.dealer_vehicles serviceable_dealer_vehicles ON ((e.vehicle_id = serviceable_dealer_vehicles.id)))
+	     LEFT JOIN prv.customers caf_depot_customers ON ((local_customers.registered_depot_reference_id = caf_depot_customers.uuid)))
+	     LEFT JOIN prv.customers depot_customers ON (((e.customer_id = depot_customers.id) AND (depot_customers.customer_type = 'Depot'::prv.customer_type))))
+	     LEFT JOIN prv.caf_customers ccf ON (((((ccf.registered_depot_reference_id)::character varying(100))::text = ((depot_customers.uuid)::character varying(100))::text) AND ((e.dealer_id)::text = (ccf.dealer_id)::text))))
+	     LEFT JOIN prv.dealer_vehicles registered_dealer_vehicles ON (((serviceable_dealer_vehicles.registered_asset)::text = (registered_dealer_vehicles.uri)::text)))
+	     LEFT JOIN prv.dealer_info fleet_srm_local_mapping ON (((local_customers.srm_account_id)::text = (fleet_srm_local_mapping.srm_account_id)::text)))
+	     LEFT JOIN prv.dealer_info fleet ON (((e.vehicle_owner)::text = (fleet.dealer_id)::text)));
+2023-03-20 20:17:49.659 AMERICA [347062] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:49.659 AMERICA [347062] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 20:17:49.863 AMERICA [347062] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 20:17:49.863 AMERICA [347062] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 20:17:51.474 AMERICA [347069] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:51.474 AMERICA [347069] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 20:17:51.700 AMERICA [347069] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 20:17:51.700 AMERICA [347069] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 20:17:52.131 AMERICA [347079] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:52.131 AMERICA [347079] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 20:17:52.259 AMERICA [347074] ERROR:  relation "prv.dealer_versions_id_seq" does not exist
+2023-03-20 20:17:52.259 AMERICA [347074] STATEMENT:  ALTER SEQUENCE prv.dealer_versions_id_seq OWNED BY prv.dealer_versions.id;
+2023-03-20 20:17:52.347 AMERICA [347079] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 20:17:52.347 AMERICA [347079] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 20:17:52.472 AMERICA [347074] ERROR:  relation "prv.allowed_urls" does not exist
+2023-03-20 20:17:52.472 AMERICA [347074] STATEMENT:  ALTER SEQUENCE prv.allowed_urls_id_seq OWNED BY prv.allowed_urls.id;
+2023-03-20 20:17:54.871 AMERICA [347062] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 20:17:54.871 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:54.871 AMERICA [347062] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 20:17:54.871 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:55.198 AMERICA [347062] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 20:17:55.198 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:17:56.633 AMERICA [347069] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 20:17:56.633 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:56.633 AMERICA [347069] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 20:17:56.633 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:57.010 AMERICA [347069] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 20:17:57.010 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:17:57.462 AMERICA [347079] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 20:17:57.462 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:57.463 AMERICA [347079] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 20:17:57.463 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:57.561 AMERICA [347074] ERROR:  syntax error at or near "ALTER" at character 171
+2023-03-20 20:17:57.561 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY dcv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls allowed_urls_pkey; Type: CONSTRAINT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: mck; Owner: -
+	--
+	ALTER TABLE ONLY mck.allowed_urls ALTER COLUMN id SET DEFAULT nextval('mck.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:57.562 AMERICA [347074] ERROR:  syntax error at or near "ALTER" at character 153
+2023-03-20 20:17:57.562 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY prv.allowed_urls
+	    ADD CONSTRAINT allowed_urls_pkey PRIMARY KEY
+	--
+	-- Name: allowed_urls id; Type: DEFAULT; Schema: prv; Owner: -
+	--
+	ALTER TABLE ONLY prv.allowed_urls ALTER COLUMN id SET DEFAULT nextval('prv.allowed_urls_id_seq'::regclass);
+2023-03-20 20:17:57.832 AMERICA [347079] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 20:17:57.832 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:17:57.926 AMERICA [347074] ERROR:  there is no unique constraint matching given keys for referenced table "estimate_items"
+2023-03-20 20:17:57.926 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY mck.sds_operations
+	    ADD CONSTRAINT fk_rails_099434ecc2 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:17:59.178 AMERICA [347062] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 20:17:59.178 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 20:18:01.209 AMERICA [347069] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 20:18:01.209 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 20:18:01.955 AMERICA [347079] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 20:18:01.955 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 20:18:02.093 AMERICA [347074] ERROR:  multiple primary keys for table "invisible_dealers" are not allowed
+2023-03-20 20:18:02.093 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY portal.invisible_dealers
+	    ADD CONSTRAINT invisible_dealers_pkey PRIMARY KEY (id);
+2023-03-20 20:18:12.921 AMERICA [347062] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:12.921 AMERICA [347062] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 20:18:12.922 AMERICA [347062] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:12.922 AMERICA [347062] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 20:18:16.760 AMERICA [347069] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:16.760 AMERICA [347069] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 20:18:16.760 AMERICA [347069] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:16.760 AMERICA [347069] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 20:18:17.689 AMERICA [347079] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:17.689 AMERICA [347079] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 20:18:17.689 AMERICA [347079] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:17.689 AMERICA [347079] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 20:18:17.740 AMERICA [347074] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:17.740 AMERICA [347074] STATEMENT:  CREATE INDEX index_case_metadata_on_account_uuid ON mck.case_metadata USING btree (account_uuid);
+2023-03-20 20:18:17.741 AMERICA [347074] ERROR:  column "account_uuid" does not exist
+2023-03-20 20:18:17.741 AMERICA [347074] STATEMENT:  CREATE UNIQUE INDEX index_case_metadata_on_account_uuid_and_case_uuid ON mck.case_metadata USING btree (account_uuid, case_uuid);
+2023-03-20 20:18:28.026 AMERICA [347062] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:28.026 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:18:28.215 AMERICA [347062] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:28.215 AMERICA [347062] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 20:18:30.085 AMERICA [347069] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:30.085 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:18:30.251 AMERICA [347069] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:30.251 AMERICA [347069] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 20:18:30.795 AMERICA [347079] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:30.795 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:18:30.865 AMERICA [347079] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:30.865 AMERICA [347079] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 20:18:30.939 AMERICA [347074] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:30.939 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY mck.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES mck.estimate_items(id);
+2023-03-20 20:18:31.076 AMERICA [347074] ERROR:  constraint "fk_rails_678fbf5542" for relation "estimate_item_fault_codes_histories" already exists
+2023-03-20 20:18:31.076 AMERICA [347074] STATEMENT:  ALTER TABLE ONLY prv.estimate_item_fault_codes_histories
+	    ADD CONSTRAINT fk_rails_678fbf5542 FOREIGN KEY (estimate_item_id) REFERENCES prv.estimate_items(id);
+2023-03-20 20:18:35.381 AMERICA [347062] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 20:18:35.381 AMERICA [347062] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:35.381 AMERICA [347062] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:36.909 AMERICA [347069] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 20:18:36.909 AMERICA [347069] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:36.909 AMERICA [347069] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:37.450 AMERICA [347079] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 20:18:37.450 AMERICA [347079] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:37.450 AMERICA [347079] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:37.676 AMERICA [347074] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations"
+2023-03-20 20:18:37.676 AMERICA [347074] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:37.676 AMERICA [347074] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:42.572 AMERICA [347062] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 20:18:42.572 AMERICA [347062] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:42.572 AMERICA [347062] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:44.056 AMERICA [347069] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 20:18:44.056 AMERICA [347069] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:44.056 AMERICA [347069] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:44.622 AMERICA [347079] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 20:18:44.622 AMERICA [347079] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:44.622 AMERICA [347079] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:18:44.792 AMERICA [347074] ERROR:  duplicate key value violates unique constraint "unique_schema_migrations1"
+2023-03-20 20:18:44.792 AMERICA [347074] DETAIL:  Key (version)=(20221128224749) already exists.
+2023-03-20 20:18:44.792 AMERICA [347074] STATEMENT:  INSERT INTO schema_migrations (version) VALUES ('20221128224749');
+2023-03-20 20:20:47.562 AMERICA [348777] ERROR:  database "porcing_test4" already exists
+2023-03-20 20:20:47.562 AMERICA [348777] STATEMENT:  CREATE DATABASE "porcing_test4" ENCODING = 'utf-8'
+2023-03-20 20:20:47.781 AMERICA [348788] ERROR:  database "porcing_test2" already exists
+2023-03-20 20:20:47.781 AMERICA [348788] STATEMENT:  CREATE DATABASE "porcing_test2" ENCODING = 'utf-8'
+2023-03-20 20:20:47.792 AMERICA [348789] ERROR:  database "porcing_test" already exists
+2023-03-20 20:20:47.792 AMERICA [348789] STATEMENT:  CREATE DATABASE "porcing_test" ENCODING = 'utf-8'
+2023-03-20 20:20:47.878 AMERICA [348790] ERROR:  database "porcing_test3" already exists
+2023-03-20 20:20:47.878 AMERICA [348790] STATEMENT:  CREATE DATABASE "porcing_test3" ENCODING = 'utf-8'
+2023-03-20 20:20:57.354 AMERICA [348840] ERROR:  relation "telematics_providers" already exists
+2023-03-20 20:20:57.354 AMERICA [348840] STATEMENT:  CREATE TABLE portal.telematics_providers (
+	    id integer DEFAULT nextval('portal.telematics_providers_seq'::regclass) NOT NULL,
+	    name character varying(255),
+	    symbol character varying(255),
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:20:57.387 AMERICA [348844] ERROR:  relation "telematics_providers" already exists
+2023-03-20 20:20:57.387 AMERICA [348844] STATEMENT:  CREATE TABLE portal.telematics_providers (
+	    id integer DEFAULT nextval('portal.telematics_providers_seq'::regclass) NOT NULL,
+	    name character varying(255),
+	    symbol character varying(255),
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:20:57.392 AMERICA [348842] ERROR:  relation "telematics_providers" already exists
+2023-03-20 20:20:57.392 AMERICA [348842] STATEMENT:  CREATE TABLE portal.telematics_providers (
+	    id integer DEFAULT nextval('portal.telematics_providers_seq'::regclass) NOT NULL,
+	    name character varying(255),
+	    symbol character varying(255),
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:20:57.469 AMERICA [348840] ERROR:  relation "versions" already exists
+2023-03-20 20:20:57.469 AMERICA [348840] STATEMENT:  CREATE TABLE portal.versions (
+	    id integer DEFAULT nextval('portal.versions_seq'::regclass) NOT NULL,
+	    versioned_id integer,
+	    versioned_type character varying(255),
+	    changes text,
+	    number integer,
+	    created_at timestamp without time zone,
+	    modified_by_id integer
+	);
+2023-03-20 20:20:57.500 AMERICA [348842] ERROR:  relation "versions" already exists
+2023-03-20 20:20:57.500 AMERICA [348842] STATEMENT:  CREATE TABLE portal.versions (
+	    id integer DEFAULT nextval('portal.versions_seq'::regclass) NOT NULL,
+	    versioned_id integer,
+	    versioned_type character varying(255),
+	    changes text,
+	    number integer,
+	    created_at timestamp without time zone,
+	    modified_by_id integer
+	);
+2023-03-20 20:20:57.501 AMERICA [348844] ERROR:  relation "versions" already exists
+2023-03-20 20:20:57.501 AMERICA [348844] STATEMENT:  CREATE TABLE portal.versions (
+	    id integer DEFAULT nextval('portal.versions_seq'::regclass) NOT NULL,
+	    versioned_id integer,
+	    versioned_type character varying(255),
+	    changes text,
+	    number integer,
+	    created_at timestamp without time zone,
+	    modified_by_id integer
+	);
+2023-03-20 20:20:57.567 AMERICA [348846] ERROR:  relation "telematics_providers" already exists
+2023-03-20 20:20:57.567 AMERICA [348846] STATEMENT:  CREATE TABLE portal.telematics_providers (
+	    id integer DEFAULT nextval('portal.telematics_providers_seq'::regclass) NOT NULL,
+	    name character varying(255),
+	    symbol character varying(255),
+	    created_at timestamp without time zone NOT NULL,
+	    updated_at timestamp without time zone NOT NULL
+	);
+2023-03-20 20:20:57.665 AMERICA [348846] ERROR:  relation "versions" already exists
+2023-03-20 20:20:57.665 AMERICA [348846] STATEMENT:  CREATE TABLE portal.versions (
+	    id integer DEFAULT nextval('portal.versions_seq'::regclass) NOT NULL,
+	    versioned_id integer,
+	    versioned_type character varying(255),
+	    changes text,
+	    number integer,
+	    created_at timestamp without time zone,
+	    modified_by_id integer
+	);
+2023-03-20 20:21:28.719 AMERICA [270267] LOG:  checkpoint starting: time
+2023-03-20 20:25:58.475 AMERICA [270267] LOG:  checkpoint complete: wrote 10762 buffers (65.7%); 0 WAL file(s) added, 0 removed, 8 recycled; write=269.348 s, sync=0.313 s, total=269.757 s; sync files=5435, longest=0.008 s, average=0.001 s; distance=139420 kB, estimate=139420 kB
+2023-03-20 20:32:38.848 AMERICA [270266] LOG:  could not open file "postmaster.pid": No such file or directory
+2023-03-20 20:32:38.848 AMERICA [270266] LOG:  performing immediate shutdown because data directory lock file is invalid
+2023-03-20 20:32:38.848 AMERICA [270266] LOG:  received immediate shutdown request
+2023-03-20 20:32:38.848 AMERICA [270266] LOG:  could not open file "postmaster.pid": No such file or directory
+2023-03-20 20:32:38.890 AMERICA [270266] LOG:  database system is shut down
